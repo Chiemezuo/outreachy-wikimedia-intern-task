@@ -2,17 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>YOUR NAME - Task 1</title>
+        <title>Mezuo - Task 1</title>
         <style>.block { background-color:gainsboro; padding:1em; } </style>
     </head>
     <body>
-        <h1>YOUR NAME - Task 1</h1>
+        <h1>Mezuo - Task 1</h1>
         <h2>My code:</h2>
         <p id="code" class="block"></p>
         <h2>Results of my code:</h2>
         <p id="results" class="block"></p>
         <script id="task_id">
-            {# INPUT #}
+            // {# INPUT #}
             let data = [
                 {"page_id": 6682420, "creation_date": "2021-09-13", "title": "André Baniwa"},
                 {"page_id": 4246775, "creation_date": "2013-12-10", "title": "Benki Piyãko"},
@@ -28,7 +28,42 @@
                 {"page_id": 6549130, "creation_date": "2021-04-10", "title": "Zezico Guajajara"},
             ];
 
-            {# YOUR CODE HERE #}
+            // {# YOUR CODE HERE #}
+            const stringGenerator = (title, pageId, date) => {
+                return `Article "${title}" (Page ID ${pageId}) was created at ${date.month} ${date.day}, ${date.year}.`
+            }
+
+            const dateConverter = (stringDate) => {
+                const date = new Date(stringDate)
+                // List out the months of a year.
+                const months = [
+                    "January", "February", "March", "April",
+                    "May", "June", "July", "August",
+                    "September", "October", "November", "December"
+                ];
+                return {
+                    month: months[date.getMonth()],
+                    day: date.getDate(),
+                    year: date.getFullYear()
+                }
+            }
+
+            const arrayElementSelector = (arrayElement) => {
+                return {
+                    pageId: arrayElement['page_id'],
+                    title: arrayElement['title'],
+                    stringDate: arrayElement['creation_date']
+                }
+            }
+
+            data.forEach(element => {
+                const {pageId, title, stringDate} = arrayElementSelector(element)
+                const date = dateConverter(stringDate)
+
+                let result = document.getElementById('results')
+                result.innerHTML += stringGenerator(title, pageId, date) + '<br>'
+            });
+
         </script>
         <script>
             document.getElementById("code").innerText = document.getElementById("task_id").text;
